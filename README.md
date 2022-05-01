@@ -1,5 +1,4 @@
 # ***Bonsai Web-Scraper***
 
 ----
-
-![bonsai_style](data/bonsai-styles.jpg)
+![bonsai_style](data/doc_images/bonsai-styles.jpg)
