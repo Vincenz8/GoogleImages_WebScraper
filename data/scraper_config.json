@@ -1,0 +1,19 @@
+{
+  "bonsai_styles": ["Hokidachi",
+    "Chokkan",
+    "Moyogi",
+    "Shakan",
+    "Kengai",
+    "Han Kengai",
+    "Bunjinji",
+    "Fukinagashi",
+    "Sokan",
+    "kabudachi",
+    "Yose-ue",
+    "Seki-joju",
+    "Ishisuki",
+    "Ikadabuki"],
+  "img_class": "tile--img__img  js-lazyload",
+  "button_img_class": "c-detail__btn c-detail__btn--bottom btn js-image-detail-link",
+  "n_images": 100
+}
