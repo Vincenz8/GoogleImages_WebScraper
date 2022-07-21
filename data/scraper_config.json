@@ -13,7 +13,7 @@
     "Seki-joju",
     "Ishisuki",
     "Ikadabuki"],
-  "img_class": "tile--img__img  js-lazyload",
-  "button_img_class": "c-detail__btn c-detail__btn--bottom btn js-image-detail-link",
+  "thumb_class": "rg_i.Q4LuWd",
+  "img_class": "n3VNCb",
   "n_images": 100
 }

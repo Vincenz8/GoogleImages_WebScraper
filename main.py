@@ -9,7 +9,7 @@ import time
 import pprint as pp
 
 # local libraries
-from utils import load_config
+from utils import load_config, to_json
 
 
 SCRAPER_CONFIG = "data/scraper_config.json"
@@ -22,18 +22,25 @@ def main():
     driver.maximize_window()
     
     for b_style in scraper_config["bonsai_styles"]:
+        
         url = f"https://www.google.com/search?q={b_style}+bonsai&source=lnms&tbm=isch&sa=X&ved=2ahUKEwiHnMa83YT5AhWCXvEDHTM-AaoQ_AUoAXoECAEQAw&biw=1366&bih=668"
         driver.get(url=url)
-        images = driver.find_elements(by="class name", value='rg_i.Q4LuWd')
+        thumbnails = driver.find_elements(by='class name', value=scraper_config['thumb_class'])
         img_paths = set()
         
-        for img in images:
-            img.click()
-            # almost working
-            # img_path = driver.find_element(by="css selector", value='img.n3VNCb.KAlRDb').get_attribute(name='src')
-            # img_paths.add(img_path)
+        for thumbnail in thumbnails:
+            
+            thumbnail.click()
+            img = driver.find_element(by='class name', value=scraper_config["img_class"])
+            img_path = img.get_attribute(name='src')
+            
+            if img_path.startswith('https'):
+                img_paths.add(img_path)
+                
             time.sleep(1) 
-        pp.pprint(img_paths)   
+            
+        paths = f'data/Bonsai_Dataset/{b_style}_path.json'
+        to_json(obj=list(img_paths), filename=paths)
             
     driver.quit()
     
