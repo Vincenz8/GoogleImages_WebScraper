@@ -1,25 +1,49 @@
 # 3rd party libraries
 import requests
 from PIL import Image
+from tqdm import tqdm
 
 # standard libraries
 from io import BytesIO
 import os
+import time
 
 # local libraries
-from utils import load_config
+from utils import load_json
 
 SCRAPER_CONFIG = "data/scraper_config.json"
 
+def download_images(urls:list[str], folder:str) -> None:
+    
+    for i, url in tqdm(enumerate(urls, 1)):
+        
+        response = requests.get(url=url)
+        img = Image.open(BytesIO(response.content))
+        if img.mode != 'RGB':
+            img = img.convert('RGB')
+            
+        destination = folder+f'/img_{i}.jpeg'
+        img.save(destination)
+        
+        time.sleep(0.5)
 
 def main():
     
-    scraper_config = load_config(filename=SCRAPER_CONFIG)
+    scraper_config = load_json(filename=SCRAPER_CONFIG)
     
-    url = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSunq993IxkGtcE22VAdH3fHJcj51IKVVvWTw&usqp=CAU'
-    response = requests.get(url=url)
-    img = Image.open(BytesIO(response.content))
-    img.save("img.jpeg")
+    for b_style in scraper_config['bonsai_styles']:
+        
+        folder = f'data/Bonsai_dataset/{b_style}'
+        if os.path.exists(path=folder):
+            ...
+        else:
+            os.mkdir(path=folder)
+            
+        paths_file = f'data/Bonsai_urls/{b_style}_paths.json'
+        images_paths = load_json(filename=paths_file)
+        print(b_style.upper())
+        download_images(urls=images_paths, folder=folder)
+        
     
 if __name__ == "__main__":
     main()
