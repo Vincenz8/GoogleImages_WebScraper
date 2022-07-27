@@ -14,7 +14,12 @@ from utils import load_json
 SCRAPER_CONFIG = "data/scraper_config.json"
 
 def download_images(urls:list[str], folder:str) -> None:
-    
+    """Make a GET request and save .jpeg to disk
+
+    Args:
+        urls (list[str]): list of images's url
+        folder (str): destination
+    """
     for i, url in tqdm(enumerate(urls, 1)):
         
         response = requests.get(url=url)
@@ -34,6 +39,7 @@ def main():
     for b_style in scraper_config['bonsai_styles']:
         
         folder = f'data/Bonsai_dataset/{b_style}'
+        
         if os.path.exists(path=folder):
             ...
         else:
@@ -42,6 +48,7 @@ def main():
         paths_file = f'data/Bonsai_urls/{b_style}_paths.json'
         images_paths = load_json(filename=paths_file)
         print(b_style.upper())
+        print('n-images: ', len(images_paths))
         download_images(urls=images_paths, folder=folder)
         
         
