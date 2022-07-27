@@ -3,6 +3,8 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.by import By
+from selenium.common.exceptions import ElementClickInterceptedException
 from tqdm import tqdm
 
 # standard libraries
@@ -27,6 +29,13 @@ def main():
         url = f"https://www.google.com/search?q={b_style}+bonsai&source=lnms&tbm=isch&sa=X&ved=2ahUKEwiHnMa83YT5AhWCXvEDHTM-AaoQ_AUoAXoECAEQAw&biw=1366&bih=668"
         driver.get(url=url)
         
+        # wait for clicking reject cookie button
+        if b_style!=scraper_config['bonsai_styles'][0]:
+            xpath_button = '//*[@id="yDmH0d"]/c-wiz/div/div/div/div[2]/div[1]/div[3]/div[1]/div[1]/form[1]/div/div/button/span'
+            reject_cookie_button = (By.XPATH, xpath_button)
+            wait_time = WebDriverWait(driver, 20)
+            wait_time.until(ec.element_to_be_clickable(mark=reject_cookie_button)).click()
+        
         start_thumb = 0
         fetched_images = 0
         img_paths = set()
@@ -38,7 +47,13 @@ def main():
             
             for thumbnail in tqdm(thumbnails[start_thumb:]):
                 
-                thumbnail.click()
+                try:
+                    wait_time.until(ec.element_to_be_clickable(thumbnail)).click()
+                    
+                except :
+                    print('errore img')
+                    continue
+                # thumbnail.click()
                 img = driver.find_element(by='class name', value=scraper_config["img_class"])
                 img_path = img.get_attribute(name='src')
                 

@@ -44,6 +44,7 @@ def main():
         print(b_style.upper())
         download_images(urls=images_paths, folder=folder)
         
+        
     
 if __name__ == "__main__":
     main()
