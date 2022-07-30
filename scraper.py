@@ -18,7 +18,7 @@ from utils import load_json, to_json
 SCRAPER_CONFIG = "data/scraper_config.json"
 
 
-def fetching_urls(limit: int,
+def fetch_urls(limit: int,
                   driver: Chrome,
                   driver_wait: WebDriverWait,
                   thumb_class: str,
@@ -110,7 +110,7 @@ def main():
                       'driver': driver,
                       'driver_wait': wait_time
                       }
-        img_paths = fetching_urls(**func_param)
+        img_paths = fetch_urls(**func_param)
 
         paths = f'data/Bonsai_urls/{b_style}_paths.json'
         to_json(obj=img_paths, filename=paths)
