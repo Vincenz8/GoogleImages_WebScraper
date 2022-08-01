@@ -2,45 +2,52 @@
 from httpx import AsyncClient
 import httpx
 from PIL import Image
-from tqdm import tqdm
 
 # standard libraries
 from io import BytesIO
 from pathlib import Path
 import asyncio
-
+import os
 
 # local libraries
 from utils import load_json
 
-BONSAI_URLS = Path("data/Bonsai_urls")
+async def get_img(url: str, client:AsyncClient, destination: str) -> None:
+    """Make a GET request for an image and save to disk in JPEG format
 
+    Args:
+        url (str): image's url
+        client (_type_): AsyncClient from httpx library
+        destination (str): filepath
 
-async def get_img(url: str, client):
-
+    """
     resp = await client.get(url)
 
-    img = Image.open(BytesIO(resp.content))
-    img.load()
-
-    if img.mode != 'RGB':
-        return img.convert('RGB')
-
-    return img
+    with Image.open(BytesIO(resp.content)) as img:
+        if img.mode != 'RGB':
+            return img.convert('RGB')
+        img.save(fp=destination)
 
 
-async def main_test():
+async def downloader(config:str, images_folder:Path, images_urls_folder:Path):
+    s_config = load_json(filename=config)
+    for name in s_config['images_names']:
+        
+        # creating folder for each category
+        category_folder = images_folder.joinpath(name)
+        if not category_folder.exists():
+            os.mkdir(category_folder)
+
+        urls = images_urls_folder.joinpath(f'{name}_urls.json')
+        urls = load_json(filename=urls)
+        async with AsyncClient() as client:
+            tasks = []
+            for i, url in enumerate(urls):
+                img_destination = images_folder.joinpath(f'{name}/img_{i}.jpeg')
+                tasks.append(asyncio.ensure_future(get_img(url=url, 
+                                                           client=client, 
+                                                           destination=img_destination)))
+
+            await asyncio.gather(*tasks)
+
     
-    # raccogliere tutti i link assieme poi svolgere l'asinc di conseguenza devo matchare fino ad un tot in una cartella
-    async with AsyncClient() as client:
-
-        tasks = []
-        for url in urls:
-            tasks.append(asyncio.ensure_future(get_img(url, client)))
-
-        images = await asyncio.gather(*tasks)
-
-
-if __name__ == '__main__':
-
-    asyncio.run(main_test())
