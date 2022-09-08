@@ -94,7 +94,7 @@ def scraper(config:str):
     
     for name in scraper_config['images_names']:
 
-        url = f"https://www.google.com/search?q={name}+bonsai&source=lnms&tbm=isch&sa=X&ved=2ahUKEwiHnMa83YT5AhWCXvEDHTM-AaoQ_AUoAXoECAEQAw&biw=1366&bih=668"
+        url = f"https://www.google.com/search?q={name}&source=lnms&tbm=isch&sa=X&ved=2ahUKEwiHnMa83YT5AhWCXvEDHTM-AaoQ_AUoAXoECAEQAw&biw=1366&bih=668"
         driver.get(url=url)
 
         # wait for clicking reject cookie button

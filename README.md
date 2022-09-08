@@ -1,4 +1,4 @@
-# ***Google's images web-scraper Guide***
+# ***Google's images web-scraper***
 
 ![bonsai_style](data/doc_images/g_image.png)
 
@@ -23,13 +23,22 @@ Then with:
 ```
 pip install requirements.txt
 ```
-You can install all the required python libraries, I recommend to create a [virtual environment](#https://www.geeksforgeeks.org/python-virtual-environment/)(Anaconda, pipenv, etc).
+You can install all the required python libraries, I recommend to create a [virtual environment](#https://www.geeksforgeeks.org/python-virtual-environment/) (Anaconda, pipenv, etc).
 
 <a id='conf'></a>
 ### ***Configuration***
-Inside the folder called ***data*** you can find a [Json file](#data/scraper_config.json) with the 
+Here we can see how the ***configuration file*** ("data/scraper_config.json") look like:
+
+![bonsai_style](data/doc_images/json_conf.png)
+
+You can change the number of images and obviously the type of images, fields like "thumb_class" and "img_class" are HTML tag needed to locate the elements on the web page.
 
 <a id='run'></a>
 ### ***Run program***
+From terminal:
 
+```
+python main.py
+```
+Or from the start button of your preferred IDE.
 
