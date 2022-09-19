@@ -4,7 +4,7 @@
 
 This web scraper was developed for gathering images of bonsai, you can find the dataset at:
 
-***Kaggle*** -> coming soon
+***Kaggle*** -> https://www.kaggle.com/datasets/vincenzors8/bonsai-styles-images
 
 ## ***Contents***
 
